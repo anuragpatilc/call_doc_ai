@@ -21,7 +21,7 @@ def save_uploaded_file(uploaded_file, folder_path):
 def main():
     # Configure page for responsive design
     st.set_page_config(
-        page_title="DOC Summarization App",
+        page_title="PDF Summarization App",
         page_icon="📄",
         layout="wide",
         initial_sidebar_state="auto"
@@ -59,7 +59,7 @@ def main():
     # Header section
     col1, col2 = st.columns([3, 1])
     with col1:
-        st.title("📄 DOC Summarization App")
+        st.title("📄 Doc Summarization App")
     with col2:
         if st.button("🔄 Refresh", key="refresh_btn", help="Refresh the app"):
             st.rerun()
