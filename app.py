@@ -38,11 +38,32 @@ def main():
     
     @media (max-width: 768px) {
         .main .block-container {
-            padding-left: 1rem;
-            padding-right: 1rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            padding-top: 0.5rem;
         }
         .stButton > button {
             width: 100%;
+            font-size: 14px;
+        }
+        .stFileUploader {
+            font-size: 14px;
+        }
+        h1 {
+            font-size: 1.5rem !important;
+        }
+        h2 {
+            font-size: 1.2rem !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .main .block-container {
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+        }
+        h1 {
+            font-size: 1.3rem !important;
         }
     }
     
@@ -53,16 +74,42 @@ def main():
     .refresh-button {
         margin-bottom: 1rem;
     }
+    
+    /* Mobile-friendly summary container */
+    .summary-container {
+        background-color: #f0f2f6;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border-left: 5px solid #1f77b4;
+        margin: 1rem 0;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    @media (max-width: 768px) {
+        .summary-container {
+            padding: 0.75rem;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    }
     </style>
     """, unsafe_allow_html=True)
     
-    # Header section
-    col1, col2 = st.columns([3, 1])
-    with col1:
+    # Header section - responsive columns
+    if st.session_state.get('is_mobile', False) or st.get_option('browser.gatherUsageStats'):
+        # Stack vertically on mobile
         st.title("📄 DOC Summarization App")
-    with col2:
         if st.button("🔄 Refresh", key="refresh_btn", help="Refresh the app"):
             st.rerun()
+    else:
+        # Side by side on desktop
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            st.title("📄 DOC Summarization App")
+        with col2:
+            if st.button("🔄 Refresh", key="refresh_btn", help="Refresh the app"):
+                st.rerun()
     
     st.caption("Created By: Anurag Patil / co-founder of Neway Software Corporation")
     
@@ -104,22 +151,15 @@ def main():
             st.markdown("---")
             st.subheader("📋 Summary of Uploaded Document")
             
-            # Responsive container for summary
-            with st.container():
-                st.markdown(
-                    f"""
-                    <div style="
-                        background-color: #f0f2f6;
-                        padding: 1rem;
-                        border-radius: 0.5rem;
-                        border-left: 5px solid #1f77b4;
-                        margin: 1rem 0;
-                    ">
-                        {summaries[1]}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+            # Mobile-friendly summary display
+            st.markdown(
+                f"""
+                <div class="summary-container">
+                    {summaries[1]}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
     
     # Footer
     st.markdown("---")
